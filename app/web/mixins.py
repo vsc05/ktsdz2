@@ -1,3 +1,10 @@
+from aiohttp.abc import StreamResponse
+from aiohttp.web_exceptions import HTTPUnauthorized
+
+
 class AuthRequiredMixin:
-    # TODO: можно использовать эту mixin-заготовку для реализации проверки авторизации во View
-    raise NotImplementedError
+    async def _iter(self) -> StreamResponse:
+        if self.request.admin is None:
+            raise HTTPUnauthorized
+
+        return await super()._iter()
