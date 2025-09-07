@@ -5,7 +5,6 @@ from aiohttp.web_response import Response
 def json_response(data: dict | None = None, status: str = "ok") -> Response:
     if data is None:
         data = {}
-
     return aiohttp_json_response(
         data={
             "status": status,
@@ -20,4 +19,11 @@ def error_json_response(
     message: str | None = None,
     data: dict | None = None,
 ):
-    raise NotImplementedError
+    return aiohttp_json_response(
+        status = http_status,
+        data={
+          "status": status,
+          "message": message,
+          "data": data
+        }
+    )
